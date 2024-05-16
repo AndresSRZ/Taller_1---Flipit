@@ -1,0 +1,36 @@
+{% extends "home.html" %}
+{% block content %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Carrito de Compras</title>
+    </head>
+    <body>
+        <div class="container mt-4">
+            <h1>Resumen de la compra</h1>
+            <ul class="list-group mb-3">
+                {% for prenda in prendas_en_carrito %}
+                    <li class="list-group-item">{{ prenda.nombre }} - ${{ prenda.precio }}</li>
+                {% endfor %}
+            </ul>
+            <p><strong>Total: </strong>${{ total }}</p>
+            <h2>Metodos de pago:</h2>
+            <ul>
+                <li><strong>Nequi:</strong> 3006678085</li>
+                <li><strong>Bancolombia:</strong> 93500000773</li>
+                <li><strong>Colpatria:</strong> 8575523512</li>
+                <li><strong>BancoAgrario:</strong> 8557445236</li>
+            </ul>
+            <p>
+                Una vez realices la transferencia, envía tu comprobante al WhatsApp: <strong>3006678064</strong> y pronto nos pondremos en contacto contigo para realizar el envío de las prendas.
+            </p>
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="/media/img/Logo.png" alt="Logo" width="180" height="90" class="d-inline-block align-text-top">
+            </a>
+        </div>
+    </body>
+    </html>
+{% endblock %}

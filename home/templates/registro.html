@@ -1,0 +1,42 @@
+{% extends "home.html" %}
+{% block content %}
+  <div class="container">
+    <h1>Registro</h1>
+    <!-- Mensajes -->
+    {% if messages %}
+      <div class="container mt-3">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <form action="{% url 'process_registration' %}" method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="username" class="form-label">Nombre de usuario</label>
+        <input type="text" class="form-control" id="username" name="username" value="{{ username }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="first_name" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="first_name" name="first_name" value="{{ first_name }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="last_name" class="form-label">Apellido</label>
+        <input type="text" class="form-control" id="last_name" name="last_name" value="{{ last_name }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo electrónico</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{ email }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+      </div>
+      <div class="mb-3">
+        <label for="password2" class="form-label">Confirmar Contraseña</label>
+        <input type="password" class="form-control" id="password2" name="password2" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Registrarse</button>
+    </form>
+  </div>
+{% endblock %}
