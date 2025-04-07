@@ -10,6 +10,7 @@ from .interfaces import PrendaRepositoryInterface, CarritoRepositoryInterface, U
 from .repositories import PrendaRepository, CarritoRepository, UserService
 from .services import PrendaFilterService
 
+# Home viejo
 """def home(request):
     # Filtro Nombre
     searchPrenda = request.GET.get("searchPrenda")
