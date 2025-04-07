@@ -6,7 +6,11 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Prenda, Carrito
 
-def home(request):
+from .interfaces import PrendaRepositoryInterface, CarritoRepositoryInterface, UserServiceInterface
+from .repositories import PrendaRepository, CarritoRepository, UserService
+from .services import PrendaFilterService
+
+"""def home(request):
     # Filtro Nombre
     searchPrenda = request.GET.get("searchPrenda")
     prendas_nombre = Prenda.objects.all()
@@ -29,7 +33,6 @@ def home(request):
     prendas_estado = Prenda.objects.all()
     if estado:
         prendas_estado = prendas_estado.filter(estado__icontains=estado)
-
     # Filtro Talla
     talla = request.GET.get("talla")
     prendas_talla = Prenda.objects.all()
@@ -51,6 +54,34 @@ def home(request):
         'searchPrenda': searchPrenda,
         'prendas': prendas,
         'precio': precio,
+        'prendas_en_carrito': prendas_en_carrito,
+        'total': total
+    })
+"""
+
+def home(request):
+    # Aplicar todos los filtros usando el servicio
+    filter_params = {
+        "searchPrenda": request.GET.get("searchPrenda"),
+        "precio": request.GET.get("precio"),
+        "estado": request.GET.get("estado"),
+        "talla": request.GET.get("talla")
+    }
+    
+    prendas = prenda_filter_service.apply_filters(filter_params)
+    
+    # Obtener el carrito del usuario
+    prendas_en_carrito = []
+    total = 0
+    if request.user.is_authenticated:
+        carrito, _ = carrito_repository.get_or_create_for_user(request.user)
+        prendas_en_carrito = carrito_repository.get_prendas_in_carrito(carrito)
+        total = carrito_repository.calculate_total(prendas_en_carrito)
+    
+    return render(request, 'home.html', {
+        'searchPrenda': filter_params["searchPrenda"],
+        'prendas': prendas,
+        'precio': filter_params["precio"],
         'prendas_en_carrito': prendas_en_carrito,
         'total': total
     })
