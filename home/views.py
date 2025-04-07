@@ -10,6 +10,12 @@ from .interfaces import PrendaRepositoryInterface, CarritoRepositoryInterface, U
 from .repositories import PrendaRepository, CarritoRepository, UserService
 from .services import PrendaFilterService
 
+# Inyección de dependencias
+prenda_repository: PrendaRepositoryInterface = PrendaRepository()
+carrito_repository: CarritoRepositoryInterface = CarritoRepository()
+user_service: UserServiceInterface = UserService()
+prenda_filter_service = PrendaFilterService(prenda_repository)
+
 # Home viejo
 """def home(request):
     # Filtro Nombre
