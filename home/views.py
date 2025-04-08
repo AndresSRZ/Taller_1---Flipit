@@ -7,8 +7,8 @@ from django.contrib import messages
 from .models import Prenda, Carrito
 from .service_locator import ServiceLocator
 
-# Importar las interfaces y clases de los repositorios y servicios, ande implementar singleton
-# de la clase ServiceLocator para manejar la inyección de dependencias
+# Importar las interfaces y clases de los repositorios y servicios, antes de implementar singleton con
+# la clase ServiceLocator para manejar la inyección de dependencias
 """
     from .interfaces import PrendaRepositoryInterface, CarritoRepositoryInterface, UserServiceInterface
     from .repositories import PrendaRepository, CarritoRepository, UserService
