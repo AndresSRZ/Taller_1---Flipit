@@ -1,0 +1,23 @@
+# Configuración y Ejecución del Proyecto FlipIt
+
+Este documento explica cómo configurar y ejecutar el proyecto FlipIt desarrollado en Django.
+
+## Requisitos Previos
+
+- Python 3.8 o superior
+- pip (gestor de paquetes de Python)
+- Virtualenv (opcional, pero recomendado)
+
+## Pasos para la Configuración
+
+### 1. Clonar o Descargar el Repositorio (si aplica)
+
+##Abrir Terminal
+
+mkdir FlipIt
+
+cd FlipIt
+
+git clone https://github.com/AndresSRZ/Taller_1---Flipit
+
+python manage.py runserver
