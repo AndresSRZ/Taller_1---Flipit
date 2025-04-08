@@ -1,21 +1,25 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
-
 from django.contrib import messages
+
 from .models import Prenda, Carrito
+from .service_locator import ServiceLocator
 
-from .interfaces import PrendaRepositoryInterface, CarritoRepositoryInterface, UserServiceInterface
-from .repositories import PrendaRepository, CarritoRepository, UserService
-from .services import PrendaFilterService
+# Importar las interfaces y clases de los repositorios y servicios, ande implementar singleton
+# de la clase ServiceLocator para manejar la inyección de dependencias
+"""
+    from .interfaces import PrendaRepositoryInterface, CarritoRepositoryInterface, UserServiceInterface
+    from .repositories import PrendaRepository, CarritoRepository, UserService
+    from .services import PrendaFilterService
 
-# Inyección de dependencias
-prenda_repository: PrendaRepositoryInterface = PrendaRepository()
-carrito_repository: CarritoRepositoryInterface = CarritoRepository()
-user_service: UserServiceInterface = UserService()
-prenda_filter_service = PrendaFilterService(prenda_repository)
-
+    # Inyección de dependencias
+    prenda_repository: PrendaRepositoryInterface = PrendaRepository()
+    carrito_repository: CarritoRepositoryInterface = CarritoRepository()
+    user_service: UserServiceInterface = UserService()
+    prenda_filter_service = PrendaFilterService(prenda_repository)
+"""
 # Home viejo
 """def home(request):
     # Filtro Nombre
@@ -67,6 +71,11 @@ prenda_filter_service = PrendaFilterService(prenda_repository)
 """
 
 def home(request):
+
+    # Obtener servicios a través del ServiceLocator
+    prenda_filter_service = ServiceLocator.get_prenda_filter_service()
+    carrito_repository = ServiceLocator.get_carrito_repository()
+
     # Aplicar todos los filtros usando el servicio
     filter_params = {
         "searchPrenda": request.GET.get("searchPrenda"),
@@ -148,7 +157,6 @@ def user_logout(request):
     messages.success(request, "Sesión cerrada exitosamente")
     return redirect('home')
 
-# En views.py
 def agregar_al_carrito(request, prenda_id):
     if request.user.is_authenticated:
         prenda = Prenda.objects.get(id=prenda_id)
